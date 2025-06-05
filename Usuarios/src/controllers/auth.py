@@ -30,8 +30,7 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
             id=user.id,
             email=user.email,
             nombre=user.nombre,
-            apellido=user.apellido,
-            role=user.role.name  
+            apellido=user.apellido
         )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -50,15 +49,11 @@ async def login(
             detail="Credenciales incorrectas",
         )
     
-    role = db.query(Role).filter(Role.id == user.role_id).first()
-    role_name = role.name if role else "usuario"
-    
     access_token = create_access_token(
         data={
             "id": user.id,
             "sub": user.email,
-            "nombre": user.nombre,
-            "role": role_name,
+            "nombre": user.nombre
         }
     )
     return {"access_token": access_token, "token_type": "bearer"}
@@ -72,8 +67,7 @@ def validate_token(token: str = Depends(oauth2_scheme)):
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         return {
             "id": payload.get("id"),
-            "email": payload.get("sub"),
-            "rol": payload.get("role"),
+            "email": payload.get("sub")
         }
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))

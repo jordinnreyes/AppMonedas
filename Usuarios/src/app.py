@@ -25,8 +25,6 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     create_tables(engine)
-    with Session(engine) as db:
-        init_roles(db)  
 
 # Incluir routers
 app.include_router(auth.router, prefix="/auth", tags=["auth"])

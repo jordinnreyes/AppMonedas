@@ -2,8 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from ..config.settings import settings
 from models.base import Base
-from models.user import User 
-from models.role import Role
+from models.user import User
 from sqlalchemy.orm import Session
 
 DATABASE_URL = settings.DATABASE_URL
@@ -30,15 +29,6 @@ SessionLocal = sessionmaker(
     expire_on_commit=False 
 )
 
-def init_roles(db: Session):
-    # Verificar si los roles ya existen
-    for role_name in ["admin", "alumno", "profesor"]:
-        role_exists = db.query(Role).filter(Role.name == role_name).first()
-        if not role_exists:
-            # Si no existe, agregarlo
-            new_role = Role(name=role_name)
-            db.add(new_role)
-            db.commit()
 
 def get_db():
     db = SessionLocal()
