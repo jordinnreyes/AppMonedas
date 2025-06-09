@@ -1,7 +1,8 @@
 import httpx
 from ..schemas.banco_schema import TransaccionRequest, TransaccionResponse
 
-CAMBISTA_URL = "http://servicio-cambista:8000/cambio/convertir"
+CAMBISTA_URL = "http://cambista:8000/cambio/exchange/"
+
 
 async def procesar_transaccion(data: TransaccionRequest) -> TransaccionResponse:
     if data.moneda_origen == data.moneda_destino:
@@ -10,11 +11,11 @@ async def procesar_transaccion(data: TransaccionRequest) -> TransaccionResponse:
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 CAMBISTA_URL,
-                params={"monto": data.monto, "from": data.moneda_origen, "to": data.moneda_destino}
+                params={"amount": data.monto, "base": data.moneda_origen, "target": data.moneda_destino}
             )
             if response.status_code != 200:
                 raise Exception("Error al convertir moneda")
-            monto_convertido = response.json()["resultado"]
+            monto_convertido = response.json()["converted"]
 
     return TransaccionResponse(
         origen=data.origen,

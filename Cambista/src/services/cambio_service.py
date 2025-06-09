@@ -7,6 +7,7 @@ async def get_exchange_rate(base: str, target: str):
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
         data = response.json()
+        print("Respuesta cruda:", data)
         if response.status_code != 200:
             raise Exception(data.get("message", "Error en API externa"))
 
