@@ -9,4 +9,3 @@ class TokenData(BaseModel):
     email: Optional[str] = None
     nombre: Optional[str] = None
     apellido: Optional[str] = None
-    role: Optional[str] = None  
