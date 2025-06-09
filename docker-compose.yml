@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  usuarios:
+    build:
+      context: ./usuarios
+      dockerfile: Dockerfile
+    container_name: fastapi_usuarios_v2_MonedasApp
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://${USUARIOS_DB_USER}:${USUARIOS_DB_PASSWORD}@usuarios_db:5432/${USUARIOS_DB_NAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - PYTHONPATH=/app/src
+    depends_on:
+      usuarios_db:
+        condition: service_healthy
+    volumes:
+      - ./usuarios:/app
+    command: >
+      sh -c "uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload"
+    networks:
+      - backend_network
+
+  usuarios_db:
+    image: postgres:15-alpine
+    container_name: postgres_usuarios_db_MonedasApp
+    environment:
+      POSTGRES_USER: ${USUARIOS_DB_USER}
+      POSTGRES_PASSWORD: ${USUARIOS_DB_PASSWORD}
+      POSTGRES_DB: ${USUARIOS_DB_NAME}
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+    volumes:
+      - usuarios_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${USUARIOS_DB_USER} -d ${USUARIOS_DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend_network
+
+  cambista:
+    build:
+      context: ./cambista
+      dockerfile: Dockerfile
+    container_name: fastapi_cambista
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app/src
+    volumes:
+      - ./cambista:/app
+    command: >
+      sh -c "uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload"
+    networks:
+      - backend_network
+
+  banco:
+    build:
+      context: ./banco
+      dockerfile: Dockerfile
+    container_name: fastapi_banco
+    ports:
+      - "8002:8000"
+    environment:
+      - CAMBISTA_SERVICE_URL=http://cambista:8000
+      - PYTHONPATH=/app/src
+    depends_on:
+      - cambista
+    volumes:
+      - ./banco:/app
+    command: >
+      sh -c "uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload"
+    networks:
+      - backend_network
+
+volumes:
+  usuarios_data:
+
+networks:
+  backend_network:
+    driver: bridge

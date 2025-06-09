@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .db.database import engine, create_tables, init_roles
+from .db.database import engine, create_tables
 from .controllers import auth, users
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session

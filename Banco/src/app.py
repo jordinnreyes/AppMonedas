@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from .controllers import transaccion_controller
+from .controllers import banco_controller
 
 app = FastAPI(
     title="Servicio Banco",
@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Incluir rutas
-app.include_router(transaccion_controller.router, prefix="/banco", tags=["banco"])
+app.include_router(banco_controller.router, prefix="/banco", tags=["banco"])
 
 @app.get("/health", tags=["system"])
 def health_check():
