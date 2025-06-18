@@ -21,3 +21,15 @@ async def read_current_user(
         apellido=current_user.apellido
     )
 
+@router.get("/{usuario_id}", response_model=UserResponse)
+def get_user_by_id(usuario_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == usuario_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    return UserResponse(
+        id=user.id,
+        email=user.email,
+        nombre=user.nombre,
+        apellido=user.apellido
+    )

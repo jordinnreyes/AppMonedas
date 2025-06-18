@@ -9,7 +9,6 @@ from ..utils.security import create_access_token
 from ..config.settings import settings
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
-from ..models.role import Role
 
 
 
