@@ -5,6 +5,12 @@ Una aplicación básica de cambio de monedas con arquitectura de microservicios.
 
 ---
 
+Docs de pruebas en postman y frontend:
+[https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/](https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/)
+
+frontend:
+https://github.com/jordinnreyes/AppMonedasFrontend.git
+
 ## 🧱 Arquitectura General
 
 ```plaintext
@@ -15,3 +21,5 @@ Una aplicación básica de cambio de monedas con arquitectura de microservicios.
         │                                           │
    React Native                               Base de Datos
        (Expo)                                      (PGSQL)
+
+
