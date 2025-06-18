@@ -6,7 +6,7 @@ Una aplicación básica de cambio de monedas con arquitectura de microservicios.
 ---
 
 Docs de pruebas en postman y frontend:
-[https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/](https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/)
+[https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/edit?usp=sharing](https://docs.google.com/document/d/1sLtyN1aeh2TNv6MxIIFEVNfF5DJ1JxrNqfUy5YDwZf4/edit?usp=sharing)
 
 frontend:
 https://github.com/jordinnreyes/AppMonedasFrontend.git
